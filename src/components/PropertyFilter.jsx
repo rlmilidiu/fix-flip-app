@@ -169,41 +169,6 @@ const PropertyFilter = ({ onSearch, isLoading }) => {
               onChange={(e) => handleCurrencyInput('priceMax', e.target.value)}
             />
           </div>
-          {/* Status Ativo */}
-          <div className="form-group" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 'var(--space-3)', marginTop: 'var(--space-4)' }}>
-            <label className="switch" style={{ position: 'relative', display: 'inline-block', width: '50px', height: '26px' }}>
-              <input
-                type="checkbox"
-                checked={filters.onlyActive}
-                onChange={(e) => handleChange('onlyActive', e.target.checked)}
-                style={{ opacity: 0, width: 0, height: 0 }}
-              />
-              <span className="slider round" style={{
-                position: 'absolute',
-                cursor: 'pointer',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundColor: filters.onlyActive ? 'var(--color-success-500)' : '#ccc',
-                transition: '.4s',
-                borderRadius: '34px'
-              }}>
-                <span style={{
-                  position: 'absolute',
-                  content: '""',
-                  height: '18px',
-                  width: '18px',
-                  left: filters.onlyActive ? '26px' : '4px',
-                  bottom: '4px',
-                  backgroundColor: 'white',
-                  transition: '.4s',
-                  borderRadius: '50%'
-                }}></span>
-              </span>
-            </label>
-            <span className="form-label" style={{ marginBottom: 0 }}>Apenas Anúncios Ativos</span>
-          </div>
         </div>
 
         {/* Advanced Filters Toggle */}
@@ -315,8 +280,7 @@ const PropertyFilter = ({ onSearch, isLoading }) => {
               garageSpaces: '',
               metroDistance: '',
               areaMin: '',
-              areaMax: '',
-              onlyActive: true
+              areaMax: ''
             })}
           >
             Limpar Filtros
