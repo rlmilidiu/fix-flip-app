@@ -15,9 +15,8 @@ const OpportunitiesPage = () => {
     const handleSearch = async (filters) => {
         setIsLoading(true);
         try {
-            // Tenta buscar da função serverless (backend)
-            // Em ambiente local sem netlify dev, isso vai falhar e cair no catch
-            const response = await axios.post('/.netlify/functions/search-properties', filters);
+            // Tenta buscar do servidor local de scraping (para testes reais)
+            const response = await axios.post('http://localhost:3001/api/search', filters);
 
             if (response.data && Array.isArray(response.data)) {
                 setProperties(response.data);
@@ -199,8 +198,8 @@ const OpportunitiesPage = () => {
                         <PropertyResults
                             properties={properties}
                             isLoading={isLoading}
-                            selectedProperties={selectedProperties}
-                            onToggleSelection={handleToggleSelection}
+                            activeProperties={selectedProperties}
+                            onToggleActivation={handleToggleSelection}
                         />
                     </div>
                 )}
