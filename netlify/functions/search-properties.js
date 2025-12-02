@@ -36,7 +36,16 @@ export const handler = async (event, context) => {
 
                 const response = await axios.get(url, {
                     headers: {
-                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+                        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+                        'Accept-Language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
+                        'Accept-Encoding': 'gzip, deflate, br',
+                        'Connection': 'keep-alive',
+                        'Upgrade-Insecure-Requests': '1',
+                        'Sec-Fetch-Dest': 'document',
+                        'Sec-Fetch-Mode': 'navigate',
+                        'Sec-Fetch-Site': 'none',
+                        'Sec-Fetch-User': '?1'
                     }
                 });
 
@@ -115,11 +124,16 @@ export const handler = async (event, context) => {
 
                 const response = await axios.get(url, {
                     headers: {
-                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
                         'Accept-Language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
-                        'Cache-Control': 'max-age=0',
-                        'Upgrade-Insecure-Requests': '1'
+                        'Accept-Encoding': 'gzip, deflate, br',
+                        'Connection': 'keep-alive',
+                        'Upgrade-Insecure-Requests': '1',
+                        'Sec-Fetch-Dest': 'document',
+                        'Sec-Fetch-Mode': 'navigate',
+                        'Sec-Fetch-Site': 'none',
+                        'Sec-Fetch-User': '?1'
                     }
                 });
 
@@ -229,7 +243,7 @@ export const handler = async (event, context) => {
             return {
                 statusCode: 200,
                 headers,
-                body: JSON.stringify(getMockData(filters))
+                body: JSON.stringify(getMockData(filters, 'Nenhum imóvel encontrado (Possível bloqueio ou seletores inválidos)'))
             };
         }
 
@@ -244,17 +258,32 @@ export const handler = async (event, context) => {
         return {
             statusCode: 200,
             headers,
-            body: JSON.stringify(getMockData(JSON.parse(event.body || '{}')))
+            body: JSON.stringify(getMockData(JSON.parse(event.body || '{}'), error.message))
         };
     }
 };
 
-function getMockData(filters) {
+function getMockData(filters, errorMessage = 'Erro desconhecido') {
     return [
         {
             id: Date.now() + 1,
+            price: 0,
+            address: `ERRO NO SCRAPING: ${errorMessage}`,
+            locality: filters.locality || 'Rio de Janeiro',
+            neighborhood: filters.neighborhood || 'Copacabana',
+            bedrooms: 0,
+            garageSpaces: 0,
+            area: 0,
+            source: 'sistema',
+            url: '#',
+            image: 'https://placehold.co/600x400/red/white?text=Erro+no+Scraping',
+            scrapedAt: new Date().toISOString(),
+            isMock: true
+        },
+        {
+            id: Date.now() + 2,
             price: 450000,
-            address: 'Rua das Flores, 123 (MOCK - Scraping Falhou)',
+            address: 'Exemplo: Rua das Flores, 123 (Dados Fictícios)',
             locality: filters.locality || 'Rio de Janeiro',
             neighborhood: filters.neighborhood || 'Copacabana',
             bedrooms: 3,
@@ -264,21 +293,8 @@ function getMockData(filters) {
             url: 'https://www.zapimoveis.com.br',
             image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=500',
             scrapedAt: new Date().toISOString(),
-            estimatedROI: 8.5
-        },
-        {
-            id: Date.now() + 2,
-            price: 380000,
-            address: 'Av. Atlântica, 456 (MOCK)',
-            locality: filters.locality || 'Rio de Janeiro',
-            neighborhood: 'Ipanema',
-            bedrooms: 2,
-            garageSpaces: 1,
-            area: 70,
-            source: 'olx',
-            url: 'https://www.olx.com.br',
-            image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500',
-            scrapedAt: new Date().toISOString()
+            estimatedROI: 8.5,
+            isMock: true
         }
     ];
 }
