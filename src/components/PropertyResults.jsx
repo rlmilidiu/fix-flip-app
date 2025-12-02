@@ -14,7 +14,8 @@ const PropertyCard = ({ property, index, isActive, onToggleActivation }) => {
         const colors = {
             'zapimoveis': 'var(--color-primary-500)',
             'olx': 'var(--color-accent-500)',
-            'webimoveis': 'var(--color-success-500)'
+            'webimoveis': 'var(--color-success-500)',
+            'simulacao': 'var(--color-warning-500)'
         };
         return colors[source?.toLowerCase()] || 'var(--color-primary-500)';
     };
