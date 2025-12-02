@@ -15,8 +15,13 @@ const OpportunitiesPage = () => {
     const handleSearch = async (filters) => {
         setIsLoading(true);
         try {
-            // Tenta buscar do servidor local de scraping (para testes reais)
-            const response = await axios.post('http://localhost:3001/api/search', filters);
+            // Determina a URL da API com base no ambiente
+            const apiUrl = window.location.hostname === 'localhost'
+                ? 'http://localhost:3001/api/search'
+                : '/.netlify/functions/search-properties';
+
+            console.log('Buscando em:', apiUrl);
+            const response = await axios.post(apiUrl, filters);
 
             if (response.data && Array.isArray(response.data)) {
                 setProperties(response.data);
